@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Classifier AI - Desafio Técnico</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="logo">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          <h1>Email Classifier AI</h1>
+        </div>
+        <p class="subtitle">Classificação inteligente de emails com IA</p>
+      </header>
+
+      <main class="main">
+        <!-- Seção de Upload/Input -->
+        <section class="input-section">
+          <div class="tabs">
+            <button class="tab active" data-tab="file">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                />
+                <polyline points="13 2 13 9 20 9" />
+              </svg>
+              Upload de Arquivo
+            </button>
+            <button class="tab" data-tab="text">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="4 7 4 4 20 4 20 7" />
+                <line x1="9" y1="20" x2="15" y2="20" />
+                <line x1="12" y1="4" x2="12" y2="20" />
+              </svg>
+              Colar Texto
+            </button>
+          </div>
+
+          <!-- Tab: Upload de Arquivo -->
+          <div class="tab-content active" id="file-tab">
+            <div class="upload-area" id="uploadArea">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <p class="upload-text">
+                Arraste um arquivo ou clique para selecionar
+              </p>
+              <p class="upload-hint">
+                Formatos aceitos: .txt, .pdf, .msg, .eml (máx. 10MB)
+              </p>
+              <input
+                type="file"
+                id="fileInput"
+                accept=".txt,.pdf,.msg,.eml"
+                hidden
+              />
+            </div>
+            <div class="file-info" id="fileInfo" style="display: none">
+              <div class="file-details">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                  />
+                  <polyline points="13 2 13 9 20 9" />
+                </svg>
+                <span id="fileName"></span>
+              </div>
+              <button class="btn-remove" id="removeFile">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <button class="btn-primary" id="analyzeFileBtn" disabled>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              Analisar Email
+            </button>
+          </div>
+
+          <!-- Tab: Texto Direto -->
+          <div class="tab-content" id="text-tab">
+            <textarea
+              id="emailText"
+              placeholder="Cole o conteúdo do email aqui...&#10;&#10;Exemplo:&#10;Assunto: Solicitação de suporte&#10;&#10;Olá equipe,&#10;&#10;Gostaria de saber o status do chamado #12345..."
+              rows="12"
+            ></textarea>
+            <button class="btn-primary" id="analyzeTextBtn">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              Analisar Email
+            </button>
+          </div>
+        </section>
+
+        <!-- Seção de Resultados -->
+        <section
+          class="results-section"
+          id="resultsSection"
+          style="display: none"
+        >
+          <div class="results-header">
+            <h2>Resultado da Análise</h2>
+            <button class="btn-secondary" id="newAnalysisBtn">
+              Nova Análise
+            </button>
+          </div>
+
+          <!-- Classificação -->
+          <div class="result-card">
+            <div class="card-header">
+              <h3>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                Classificação
+              </h3>
+            </div>
+            <div class="classification" id="classification">
+              <span class="category-badge" id="categoryBadge"></span>
+              <div class="confidence">
+                <span class="confidence-label">Confiança:</span>
+                <div class="confidence-bar">
+                  <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+                <span class="confidence-value" id="confidenceValue"></span>
+              </div>
+              <p class="reasoning" id="reasoning"></p>
+            </div>
+          </div>
+
+          <!-- Resposta Sugerida -->
+          <div class="result-card">
+            <div class="card-header">
+              <h3>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                  />
+                </svg>
+                Resposta Sugerida
+              </h3>
+              <button class="btn-copy" id="copyResponseBtn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  />
+                </svg>
+                Copiar
+              </button>
+            </div>
+            <div class="response">
+              <div class="response-subject">
+                <strong>Assunto:</strong>
+                <span id="responseSubject"></span>
+              </div>
+              <div class="response-body">
+                <strong>Mensagem:</strong>
+                <p id="responseBody"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Loading -->
+        <div class="loading" id="loading" style="display: none">
+          <div class="spinner"></div>
+          <p>Analisando email com IA...</p>
+        </div>
+
+        <!-- Error -->
+        <div class="error" id="error" style="display: none">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <p id="errorMessage"></p>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>Desenvolvido com 💙 por Julio Cesar</p>
+        <p class="footer-tech">Node.js + TypeScript + OpenAI GPT-4</p>
+      </footer>
+    </div>
+
+    <script type="module" src="/scripts/main.js"></script>
+  </body>
+</html>
