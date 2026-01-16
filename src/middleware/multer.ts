@@ -6,13 +6,15 @@ const storage = multer.memoryStorage();
 const fileFilter = (
   _req: Express.Request,
   file: Express.Multer.File,
-  cb: multer.FileFilterCallback
+  cb: multer.FileFilterCallback,
 ) => {
   const allowedMimes = [
     "text/plain",
     "application/pdf",
     "message/rfc822",
-    "application/vnd.ms-outlook",
+    "application/vnd.ms-outlook", 
+    "application/x-ole-storage",
+    "application/octet-stream",
   ];
 
   if (allowedMimes.includes(file.mimetype)) {
@@ -21,8 +23,8 @@ const fileFilter = (
     cb(
       new HttpException(
         400,
-        "Formato de arquivo inválido. Use .eml, .msg, .txt ou .pdf"
-      )
+        "Formato de arquivo inválido ou corrompido. Use .eml, .msg, .txt ou .pdf",
+      ),
     );
   }
 };
