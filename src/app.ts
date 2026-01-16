@@ -13,8 +13,11 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Servir arquivos estáticos (Frontend)
-app.use(express.static(path.join(__dirname, '..', 'public')));
+const publicPath = path.join(process.cwd(), 'public'); 
+
+console.log('📂 Caminho Public:', publicPath);
+
+app.use(express.static(publicPath));
 
 // Rate limiter
 const limiter = rateLimit({
