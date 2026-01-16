@@ -13,7 +13,8 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-const publicPath = path.join(process.cwd(), 'public'); 
+// Definir caminho público corretamente
+const publicPath = path.join(__dirname, '..', 'public');
 
 console.log('📂 Caminho Public:', publicPath);
 
@@ -41,12 +42,19 @@ app.get('/health', (req, res) => {
 
 app.use(`${env.API_PREFIX}/emails`, emailRoutes);
 
+// Fallback para SPA
 app.use((req, res, next) => {
   if (req.path.startsWith('/api') || req.path === '/health') {
     return next();
   }
   
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  const indexPath = path.join(__dirname, '..', 'public', 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Erro ao servir index.html:', err);
+      res.status(500).send('Erro ao carregar a página');
+    }
+  });
 });
 
 app.use(errorHandler);
