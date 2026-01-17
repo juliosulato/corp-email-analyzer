@@ -1,4 +1,4 @@
-# 📧 Email Classifier AI - Desafio Técnico AutoU
+# 📧 Email Classifier AI - Desafio Técnico
 
 Uma solução robusta de Inteligência Artificial para automatizar a triagem de emails corporativos. O sistema analisa o conteúdo de arquivos (`.txt`, `.pdf`, `.eml`, `.msg`), classifica-os entre **Produtivos** ou **Improdutivos** e sugere respostas automáticas contextualizadas.
 
