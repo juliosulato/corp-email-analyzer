@@ -1,4 +1,4 @@
-# 📧 Email Classifier AI - Desafio Técnico AutoU
+# 📧 Email Classifier AI - Desafio Técnico
 
 Uma solução robusta de Inteligência Artificial para automatizar a triagem de emails corporativos. O sistema analisa o conteúdo de arquivos (`.txt`, `.pdf`, `.eml`, `.msg`), classifica-os entre **Produtivos** ou **Improdutivos** e sugere respostas automáticas contextualizadas.
 
@@ -11,7 +11,7 @@ Uma solução robusta de Inteligência Artificial para automatizar a triagem de 
 ## 🔗 Demo Online
 
 Acesse a aplicação rodando em produção:
-👉 **[Link da sua Aplicação no Render](https://seu-app.onrender.com)**
+👉 [Link no Render](https://corp-email-analyzer.onrender.com/)
 
 ---
 
